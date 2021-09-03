@@ -1,13 +1,17 @@
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => {
   return {
+    text: {
+      color: "white",
+    },
     colorToolbar: {
-      backgroundColor: "#ffffffb8",
+      // backgroundColor: "#ffffffb8",
       boxShadow: "none",
       borderBottom: "1px solid black",
+      backgroundColor: "#222b36",
     },
-    colorDark: {
-      color: "black",
+    colorWhite: {
+      color: "white",
     },
     grow: {
       flexGrow: 1,
@@ -36,7 +40,6 @@ const useStyles = makeStyles((theme) => {
     },
     sectionDesktop: {
       display: "none",
-
       [theme.breakpoints.up("md")]: {
         display: "flex",
       },
@@ -45,6 +48,15 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
       [theme.breakpoints.up("md")]: {
         display: "none",
+      },
+    },
+    link: {
+      textDecoration: "none",
+      color: theme.palette.primary.light,
+      "&:hover": {
+        textDecoration: "none",
+        transition: "all 0.7s",
+        color: theme.palette.primary.main,
       },
     },
   };

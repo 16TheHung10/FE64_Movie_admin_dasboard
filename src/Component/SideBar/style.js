@@ -4,6 +4,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
   },
+  avatar: {
+    width: "90%",
+    margin: "auto",
+    backgroundColor: "blue",
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,

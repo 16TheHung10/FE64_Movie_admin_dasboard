@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -7,7 +7,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyles from "./style";
 import { Link } from "react-router-dom";
 
-export default function Sidebar() {
+function Sidebar() {
   const classes = useStyles();
 
   return (
@@ -24,8 +24,8 @@ export default function Sidebar() {
                 <Typography className={classes.heading}>Film</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Link className={classes.link} to={"/pf"}>
-                  Film
+                <Link className={classes.link} to={"/admin/film"}>
+                  Film Manager
                 </Link>
               </AccordionDetails>
               <AccordionDetails>
@@ -67,3 +67,4 @@ export default function Sidebar() {
     </div>
   );
 }
+export default memo(Sidebar);

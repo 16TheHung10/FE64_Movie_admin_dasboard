@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,8 +11,9 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./style";
 import classNames from "classnames";
 import { useMediaQuery, useTheme } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
-export default function PrimarySearchAppBar() {
+function Header() {
   const classes = useStyles();
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
@@ -20,14 +21,17 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classNames(classes.grow)}>
+      {/* <img scr={logo} style={{ width: "100px", height: "100px" }} /> */}
       <AppBar className={classes.colorToolbar} position="static">
         <Toolbar>
           <Typography
-            className={classNames(classes.title, classes.colorDark)}
+            className={classNames(classes.title, classes.colorWhite)}
             variant="h6"
             noWrap
           >
-            ADMIN DASHBOARD
+            <Link className={classes.link} to="/admin">
+              ADMIN
+            </Link>
           </Typography>
           <div className={classes.grow} />
           <div className={classNames(classes.sectionDesktop)}>
@@ -64,3 +68,4 @@ export default function PrimarySearchAppBar() {
     </div>
   );
 }
+export default memo(Header);
