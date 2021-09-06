@@ -2,6 +2,7 @@ import { actionTypes } from "../Action/type";
 const initialState = {
   ListFilm: [],
   FilmDetail: [],
+  Cinema: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {

@@ -53,6 +53,30 @@ export const fetchFilmById = (maPhim, callBack) => {
       });
   };
 };
+export const fetchFilmShowTime = (maPhim, callback, setState) => {
+  return (dispatch) => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?",
+      params: {
+        MaPhim: maPhim,
+      },
+    })
+      .then((res) => {
+        const date = dayjs(res.data.content.ngayKhoiChieu).format("YYYY-MM-DD");
+        const object = {
+          tenPhim: res.data.content.tenPhim,
+          ngayChieuGioChieu: res.data.content.ngayKhoiChieu,
+          // ngayKhoiChieu: date,
+        };
+        callback(object);
+        setState(res.data.content.hinhAnh);
+        dispatch(createAction(actionTypes.SET_FILM_DETAIL, res.data.content));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 export const addNewFilm = (data) => {
   return () => {
     request({
@@ -99,6 +123,40 @@ export const deleteFilm = (maPhim, callback) => {
       })
       .catch((err) => {
         console.log("Delete film err", err);
+      });
+  };
+};
+export const fetchListCinema = (callback) => {
+  return (dispatch) => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinHeThongRap",
+      method: "GET",
+    })
+      .then((res) => {
+        console.log("Fetch List Cinema", res.data.content);
+        // dispatch(createAction(actionTypes.SET_CINEMA, res.data.content));
+        callback(res.data.content);
+      })
+      .catch((err) => {
+        console.log("Fetch List Cinema", err);
+      });
+  };
+};
+export const fetchCumRapById = (id, callback) => {
+  return () => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinCumRapTheoHeThong?",
+      method: "GET",
+      params: {
+        maHeThongRap: id,
+      },
+    })
+      .then((res) => {
+        console.log("Fetch List Cum rap res", res.data.content);
+        callback(res.data.content);
+      })
+      .catch((err) => {
+        console.log("Fetch List Cum rap err", err);
       });
   };
 };

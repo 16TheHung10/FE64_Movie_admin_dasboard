@@ -3,4 +3,5 @@ export const actionTypes = {
   SET_FILM_DETAIL: " SET_FILM_DETAIL",
   SET_ME: "SET_ME",
   DELETE_FILM: "DELETE_FILM",
+  SET_CINEMA: " SET_CINEMA",
 };

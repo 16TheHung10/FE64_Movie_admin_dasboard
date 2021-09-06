@@ -12,6 +12,7 @@ import AdminLogin from "./Views/Authentication/AdminLogin/index";
 import { TokkenLogin } from "./Store/Action/Authentication";
 import { connect } from "react-redux";
 import { AdminGuard } from "./HOC/Route";
+import FilmShowtime from "./Views/FilmManager/FilmShowTime";
 
 class App extends Component {
   render() {
@@ -25,10 +26,36 @@ class App extends Component {
               Component={Home}
               redirectPath="/admin/login"
             />
-            <Route exact path="/admin/login" component={AdminLogin} />
-            <Route exact path="/admin/film" component={Film} />
-            <Route exact path="/admin/film/add" component={AddFilm} />
-            <Route exact path="/admin/film/edit/:id" component={FilmEdit} />
+            <AdminGuard
+              exact
+              path="/admin/login"
+              Component={AdminLogin}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/film"
+              Component={Film}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/film/add"
+              Component={AddFilm}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/film/edit/:id"
+              Component={FilmEdit}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/film/showtime/:id"
+              Component={FilmShowtime}
+              redirectPath="/admin/login"
+            />
             <Route path="*" component={PageNotFound} />
           </Switch>
         </BrowserRouter>

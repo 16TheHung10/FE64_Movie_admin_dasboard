@@ -7,6 +7,10 @@ import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
 import { createAction } from "../../../Store/Action";
 import { actionTypes } from "../../../Store/Action/type";
+import { IconButton } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import EditIcon from "@material-ui/icons/Edit";
+import EventNoteIcon from "@material-ui/icons/EventNote";
 const Film = (props) => {
   const dispatch = useDispatch();
 
@@ -72,18 +76,25 @@ const Film = (props) => {
       renderCell: (params) => {
         return (
           <Fragment>
-            <Button style={{ marginRight: "10px" }} variant="contained">
-              <NavLink to={`/admin/film/edit/${params.value}`}>Sửa</NavLink>
-            </Button>
-            <Button
+            <IconButton style={{ height: "45px" }} variant="contained">
+              <NavLink to={`/admin/film/edit/${params.value}`}>
+                <EditIcon />
+              </NavLink>
+            </IconButton>
+            <IconButton
               onClick={() => {
                 dispatch(deleteFilm(params.value, callBack(params.value)));
               }}
               variant="contained"
               color="primary"
             >
-              Xóa
-            </Button>
+              <DeleteOutlineIcon />
+            </IconButton>
+            <IconButton style={{ height: "45px" }}>
+              <NavLink to={`/admin/film/showtime/${params.value}`}>
+                <EventNoteIcon color="secondary" />
+              </NavLink>
+            </IconButton>
           </Fragment>
         );
       },
