@@ -1,108 +1,120 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Fragment, useEffect } from "react";
+import { DataGrid } from "@material-ui/data-grid";
 import Layout from "../../../HOC/Layout";
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  withStyles,
-} from "@material-ui/core";
-import { TableHead } from "@material-ui/core";
-import { TableRow } from "@material-ui/core";
-import useStyles from "./style";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFilm, fetchFilm } from "../../../Store/Action/film";
+import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
-import { fetchFilm } from "../../../Store/Action/film";
-
-const Film = () => {
+import { createAction } from "../../../Store/Action";
+import { actionTypes } from "../../../Store/Action/type";
+const Film = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchFilm);
   }, [dispatch]);
-
   const listFilm = useSelector((state) => {
     return state.film.ListFilm;
   });
 
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+  const callBack = (maPhim) => {
+    const index = listFilm.findIndex((item) => item.maPhim === maPhim);
+    if (index !== -1) {
+      const listFilmNew = [...listFilm];
+      listFilmNew.splice(index, 1);
+      console.log("new", listFilmNew);
+      dispatch(createAction(actionTypes.DELETE_FILM, listFilmNew));
+    }
+  };
+  const columns = [
+    { field: "id", headerName: "STT", width: 110 },
+    {
+      field: "maPhim",
+      headerName: "Mã phim",
+      width: 140,
+      editable: true,
     },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      "&:nth-of-type(odd)": {
-        backgroundColor: theme.palette.action.hover,
+    {
+      field: "hinhAnh",
+      headerName: "Hình ảnh",
+      renderCell: (params) => {
+        return (
+          <Fragment>
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={params.value}
+              alt={listFilm.tenPhim}
+            />
+          </Fragment>
+        );
       },
+      width: 200,
+      editable: true,
+      sortable: false,
     },
-  }))(TableRow);
-  const classes = useStyles();
+    {
+      field: "tenPhim",
+      flex: 1,
+      headerName: "Tên phim",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "moTa",
+      headerName: "Mô tả",
+      width: 750,
+      editable: true,
+    },
+    {
+      field: "actions",
+      flex: 1,
+      headerName: "Hành động",
+      renderCell: (params) => {
+        return (
+          <Fragment>
+            <Button style={{ marginRight: "10px" }} variant="contained">
+              <NavLink to={`/admin/film/edit/${params.value}`}>Sửa</NavLink>
+            </Button>
+            <Button
+              onClick={() => {
+                dispatch(deleteFilm(params.value, callBack(params.value)));
+              }}
+              variant="contained"
+              color="primary"
+            >
+              Xóa
+            </Button>
+          </Fragment>
+        );
+      },
+      sortable: false,
+    },
+  ];
+  const rows = listFilm.map((item, index) => {
+    return {
+      id: index,
+      maPhim: item.maPhim,
+      tenPhim: item.tenPhim,
+      moTa: item.moTa,
+      hinhAnh: item.hinhAnh,
+      actions: item.maPhim,
+    };
+  });
+  console.log("row", rows);
   return (
     <Layout>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell style={{ width: "100px" }}>
-                Mã Phim
-              </StyledTableCell>
-              <StyledTableCell align="center">Hình ảnh</StyledTableCell>
-              <StyledTableCell style={{ width: "200px" }} align="center">
-                Tên phim
-              </StyledTableCell>
-              <StyledTableCell style={{ width: "700px" }} align="center">
-                Mô tả
-              </StyledTableCell>
-              <StyledTableCell style={{ width: "240px" }} align="center">
-                Hành động
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {listFilm.map((item) => (
-              <StyledTableRow key={item.maPhim}>
-                <StyledTableCell align="center">{item.maPhim}</StyledTableCell>
-                <StyledTableCell align="center" component="th" scope="row">
-                  <img
-                    src={item.hinhAnh}
-                    style={{ width: "100px", height: "100%" }}
-                    alt="anh phim"
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="center">{item.tenPhim}</StyledTableCell>
-                <StyledTableCell align="center">{item.moTa}</StyledTableCell>
-                <StyledTableCell align="center">
-                  <Button
-                    style={{ marginRight: "10px" }}
-                    variant="contained"
-                    className={classes.successColor}
-                  >
-                    <NavLink
-                      className={classes.link}
-                      to={`/admin/film/edit/${item.maPhim}`}
-                    >
-                      Sửa
-                    </NavLink>
-                  </Button>
-                  <Button variant="contained" color="primary">
-                    Xóa
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div style={{ width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight={true}
+          pageSize={14}
+          rowHeight={200}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </div>
     </Layout>
   );
 };
-
 export default Film;

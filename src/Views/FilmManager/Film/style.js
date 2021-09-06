@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => {
         color: "white",
       },
     },
+    MuiTablePaginationSelectIcon: {
+      padding: "100px",
+    },
   };
 });
 export default useStyles;

@@ -12,6 +12,9 @@ const reducer = (state = initialState, { type, payload }) => {
     case actionTypes.SET_FILM_DETAIL:
       state.FilmDetail = payload;
       return { ...state };
+    case actionTypes.DELETE_FILM:
+      state.ListFilm = payload;
+      return { ...state };
     default:
       return { ...state };
   }

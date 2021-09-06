@@ -2,16 +2,19 @@ import { Button, FormControlLabel, Switch, TextField } from "@material-ui/core";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Layout from "../../../HOC/Layout";
-import { editFilm, fetchFilmById } from "../../../Store/Action/film";
 import { useStyles } from "./style";
 import { useFormik } from "formik";
 import { useCallback } from "react";
-import dayjs from "dayjs";
+import { addNewFilm } from "../../../Store/Action/film";
+import * as dayjs from "dayjs";
 const FilmEdit = (props) => {
   const dispatch = useDispatch();
   const [hinhAnh, setHinhAnh] = useState("");
+  const [disabledDangChieu, setDisabledDangChieu] = useState(false);
+  const [disabledSapChieu, setDisabledSapChieu] = useState(false);
+  const date = new Date();
+  const today = dayjs(date).format("YYYY-MM-DD");
   const classes = useStyles();
-  const [dayFormatNgayKhoiChieu, setDayFormatNgayKhoiChieu] = useState("");
   const formik = useFormik({
     initialValues: {
       tenPhim: "",
@@ -21,13 +24,13 @@ const FilmEdit = (props) => {
       dangChieu: false,
       sapChieu: false,
       hot: false,
-      hinhAnh: {},
+      hinhAnh: "",
       danhGia: "",
-      ngayKhoiChieu: "",
+      ngayKhoiChieu: "2021-09-01",
     },
     onSubmit: (values) => {
-      console.log("values formik", values);
-      const formData = new FormData();
+      formik.setFieldValue("ngayKhoiChieu", today);
+      let formData = new FormData();
       for (let key in values) {
         if (key === "ngayKhoiChieu") {
           const date = dayjs(values[key]).format("DD/MM/YYYY");
@@ -37,38 +40,39 @@ const FilmEdit = (props) => {
         }
         console.log(key, formData.get(key));
       }
-      dispatch(editFilm(formData));
+      dispatch(addNewFilm(formData));
     },
   });
-  const callBackFilmInfo = (data, date) => {
-    formik.setValues(data);
-    setDayFormatNgayKhoiChieu(date);
+  const setDisable = () => {
+    if (formik.values.dangChieu) {
+      setDisabledSapChieu(true);
+    } else {
+      setDisabledSapChieu(false);
+    }
+    if (formik.values.sapChieu) {
+      setDisabledDangChieu(true);
+    } else {
+      setDisabledDangChieu(false);
+    }
   };
   useEffect(() => {
-    const maPhim = props.match.params.id;
-    dispatch(fetchFilmById(maPhim, callBackFilmInfo));
-  }, [dispatch, props.match.params.id]);
-  const handleSubmits = useCallback(
-    (e) => {
-      e.preventDefault();
-      console.log("valuesssssssss", formik.values);
-    },
-    [formik.values]
-  );
+    setDisable();
+  }, [setDisable]);
   const handleChangeFile = (e) => {
     //lấy file ra từ e
     let file = e.target.files[0];
     formik.setFieldValue("hinhAnh", file);
-    console.log("File FormData", file);
-    const reader = new FileReader();
+    //Tạo đối tượng để đọc và chuyển file sang dạng url
+    let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
       setHinhAnh(e.target.result);
     };
   };
+
   return (
     <Layout>
-      <h1 className="text-center">Cập nhật phim</h1>
+      <h1 className="text-center">THÊM PHIM</h1>
       <div className={classes.form}>
         <form
           action=""
@@ -118,8 +122,7 @@ const FilmEdit = (props) => {
             type="date"
             name="ngayKhoiChieu"
             onChange={formik.handleChange}
-            //value="2020-02-10"
-            value={formik.values.ngayKhoiChieu}
+            value={today}
             className={classes.inputField}
             InputLabelProps={{
               shrink: true,
@@ -129,13 +132,25 @@ const FilmEdit = (props) => {
             label="Đang Chiếu"
             checked={formik.values.dangChieu}
             className={classes.inputField}
-            control={<Switch onChange={formik.handleChange} name="dangChieu" />}
+            control={
+              <Switch
+                disabled={disabledDangChieu}
+                onChange={formik.handleChange}
+                name="dangChieu"
+              />
+            }
           />
           <FormControlLabel
             className={classes.inputField}
             checked={formik.values.sapChieu}
             label="Sắp Chiếu"
-            control={<Switch onChange={formik.handleChange} name="sapChieu" />}
+            control={
+              <Switch
+                disabled={disabledSapChieu}
+                onChange={formik.handleChange}
+                name="sapChieu"
+              />
+            }
           />
           <FormControlLabel
             className={classes.inputField}
@@ -160,7 +175,7 @@ const FilmEdit = (props) => {
             style={{ display: "none" }}
             id="raised-button-file"
             multiple
-            name="hinhAnh"
+            name=""
             type="file"
             accept="image/png,image/gif,image/jpeg,image/apng,image/avif,image/webp,image/svg+xml"
             onChange={handleChangeFile}
@@ -187,12 +202,18 @@ const FilmEdit = (props) => {
                 boxShadow: " rgb(0 0 0 / 90%) 0px 5px 15px",
                 marginBottom: "30px",
               }}
-              src={hinhAnh || formik.values.hinhAnh}
+              src={hinhAnh}
               alt={formik.values.tenPhim}
             />
           )}
-
-          <Button type="submit">Submit</Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            className={classes.btnSubmit}
+            type="submit"
+          >
+            Submit
+          </Button>
         </form>
       </div>
     </Layout>

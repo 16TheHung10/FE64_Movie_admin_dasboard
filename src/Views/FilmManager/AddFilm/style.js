@@ -19,5 +19,9 @@ export const useStyles = makeStyles((theme) => {
       width: "100%",
       height: "100%",
     },
+    btnSubmit: {
+      width: "10%",
+      margin: "auto",
+    },
   };
 });

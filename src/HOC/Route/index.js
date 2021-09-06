@@ -10,7 +10,7 @@ const createRoute = (conditions) => {
           path={path}
           exact={exact}
           render={(routeProps) => {
-            if (condition()) {
+            if (conditions()) {
               return <Component {...routeProps} />;
             } else {
               return <Redirect to={redirectPath} />;
@@ -22,4 +22,4 @@ const createRoute = (conditions) => {
   };
 };
 
-export default createRoute;
+export const AdminGuard = createRoute(() => localStorage.getItem("user"));

@@ -5,21 +5,37 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import useStyles from "./style";
+import classNames from "classnames";
 import { Link } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import { useSelector } from "react-redux";
 
 function Sidebar() {
   const classes = useStyles();
-
+  const adminInfo = useSelector((state) => {
+    return state.auth.me;
+  });
   return (
     <div className="mt-1">
       <div className="">
         <div className="">
+          <div className={classNames(classes.sidebarProfile)}>
+            <Typography
+              className={classes.sidebarProfile}
+              variant="body1"
+              component="h2"
+              gutterBottom
+            >
+              {adminInfo.hoTen}
+            </Typography>
+          </div>
           <div className={classes.root}>
-            <Accordion>
+            <Accordion className={classes.accordion}>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon className={classes.expandIcon} />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
+                className={classes.expandIcon}
               >
                 <Typography className={classes.heading}>Film</Typography>
               </AccordionSummary>
@@ -29,14 +45,14 @@ function Sidebar() {
                 </Link>
               </AccordionDetails>
               <AccordionDetails>
-                <Link className={classes.link} to={"/"}>
+                <Link className={classes.link} to={"/admin/film/add"}>
                   Add new film
                 </Link>
               </AccordionDetails>
             </Accordion>
-            <Accordion>
+            <Accordion className={classes.accordion}>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon className={classes.expandIcon} />}
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
@@ -49,17 +65,6 @@ function Sidebar() {
                   eget.
                 </Typography>
               </AccordionDetails>
-            </Accordion>
-            <Accordion disabled>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel3a-content"
-                id="panel3a-header"
-              >
-                <Typography className={classes.heading}>
-                  Disabled Accordion
-                </Typography>
-              </AccordionSummary>
             </Accordion>
           </div>
         </div>
