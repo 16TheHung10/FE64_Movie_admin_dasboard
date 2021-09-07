@@ -37,6 +37,9 @@ const FilmShowtime = (props) => {
   const [anhPhim, setAnhPhim] = useState({});
   const classes = useStyles();
   const maPhim = props.match.params.id;
+  const goToHome = () => {
+    props.history.push("/admin/film");
+  };
   const formik = useFormik({
     initialValues: {
       maPhim: "",
@@ -45,17 +48,11 @@ const FilmShowtime = (props) => {
       maRap: "",
     },
     onSubmit: (values) => {
-      const formData = new FormData();
-      for (let key in values) {
-        if (key === "ngayChieuGioChieu") {
-          const date = dayjs(values[key]).format("DD/MM/YYYY hh:mm:ss");
-          formData.append(key, date);
-          console.log("date form", formData.get("ngayChieuGioChieu"));
-        } else {
-          formData.append(key, values[key]);
-        }
-      }
-      dispatch(taoLichChieu(formData));
+      const date = dayjs(formik.values.ngayChieuGioChieu).format(
+        "DD/MM/YYYY hh:mm:ss"
+      );
+      const payload = { ...values, ngayChieuGioChieu: date };
+      dispatch(taoLichChieu(payload, goToHome));
     },
   });
   const setValuesFomik = useCallback(
@@ -83,10 +80,12 @@ const FilmShowtime = (props) => {
   const fetchCumRap = (maCumRap) => {
     dispatch(fetchCumRapById(maCumRap, setStateCumRap));
   };
+
   useEffect(() => {
     dispatch(fetchFilmShowTime(maPhim, setValuesFomik, setAnhPhim, setTenPhim));
     dispatch(fetchListCinema(functionSetCinema));
   }, [dispatch]);
+
   return (
     <Layout>
       <form action="" onSubmit={formik.handleSubmit}>

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { alpha, makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => {
   return {
     successColor: {
@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme) => {
     },
     MuiTablePaginationSelectIcon: {
       padding: "100px",
+    },
+    search: {
+      margin: "20px 10px",
+      width: "80%",
     },
   };
 });

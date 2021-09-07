@@ -26,7 +26,7 @@ function Sidebar() {
               component="h2"
               gutterBottom
             >
-              {adminInfo.hoTen}
+              {adminInfo.hoTen?.toUpperCase()}
             </Typography>
           </div>
           <div className={classes.root}>
@@ -56,14 +56,22 @@ function Sidebar() {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <Typography className={classes.heading}>Accordion 2</Typography>
+                <Typography className={classes.heading}>
+                  Quản lý tài khoản
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
-                </Typography>
+                <Link className={classes.link} to={"/admin/quanlynguoidung"}>
+                  Quản lý người dùng
+                </Link>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Link
+                  className={classes.link}
+                  to={"/admin/quanlynguoidung/add"}
+                >
+                  Thêm người dùng
+                </Link>
               </AccordionDetails>
             </Accordion>
           </div>

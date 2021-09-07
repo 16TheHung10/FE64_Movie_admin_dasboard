@@ -2,21 +2,41 @@ import { createAction } from ".";
 import { request } from "../../Api";
 import { actionTypes } from "./type";
 import * as dayjs from "dayjs";
-export const fetchFilm = (dispatch) => {
-  request({
-    url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim",
-    method: "GET",
-    params: {
-      maNhom: "GP01",
-    },
-  })
-    .then((res) => {
-      console.log("res", res.data);
-      dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+export const fetchFilm = (tuKhoa = "") => {
+  return (dispatch) => {
+    if (tuKhoa === "") {
+      request({
+        url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
+        method: "GET",
+        params: {
+          maNhom: "GP01",
+        },
+      })
+        .then((res) => {
+          console.log("res", res.data);
+          dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      request({
+        url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
+        method: "GET",
+        params: {
+          maNhom: "GP01",
+          tenPhim: tuKhoa,
+        },
+      })
+        .then((res) => {
+          console.log("res", res.data);
+          dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 };
 
 export const fetchFilmById = (maPhim, callBack) => {
@@ -175,7 +195,7 @@ export const fetchCumRapById = (id, callback) => {
       });
   };
 };
-export const taoLichChieu = (data) => {
+export const taoLichChieu = (data, callback) => {
   return () => {
     request({
       url: "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/TaoLichChieu",
@@ -183,7 +203,8 @@ export const taoLichChieu = (data) => {
       body: data,
     })
       .then((res) => {
-        console.log("tao lich chieu res", res);
+        alert(res.data.content);
+        callback();
       })
       .catch((err) => {
         console.log("tao lich chieu err", err);

@@ -14,6 +14,8 @@ import { connect } from "react-redux";
 import { AdminGuard } from "./HOC/Route";
 import FilmShowtime from "./Views/FilmManager/FilmShowTime";
 import { fetchFilmById, fetchFilmById2 } from "./Store/Action/film";
+import ListUser from "./Views/UserManager/ListUser";
+import AddUser from "./Views/UserManager/AddUser";
 
 class App extends Component {
   render() {
@@ -50,6 +52,18 @@ class App extends Component {
               exact
               path="/admin/film/showtime/:id"
               Component={FilmShowtime}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/quanlynguoidung"
+              Component={ListUser}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/quanlynguoidung/add"
+              Component={AddUser}
               redirectPath="/admin/login"
             />
             <Route path="*" component={PageNotFound} />

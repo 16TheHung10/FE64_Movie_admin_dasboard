@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import Layout from "../../../HOC/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,15 +7,29 @@ import Button from "@material-ui/core/Button";
 import { NavLink } from "react-router-dom";
 import { createAction } from "../../../Store/Action";
 import { actionTypes } from "../../../Store/Action/type";
-import { IconButton } from "@material-ui/core";
+import {
+  FormControl,
+  Grid,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputBase,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+} from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import EventNoteIcon from "@material-ui/icons/EventNote";
+import SearchIcon from "@material-ui/icons/Search";
+import useStyles from "./style";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 const Film = (props) => {
   const dispatch = useDispatch();
-
+  const classes = useStyles();
+  const [tuKhoa, setTuKhoa] = useState("");
   useEffect(() => {
-    dispatch(fetchFilm);
+    dispatch(fetchFilm(""));
   }, [dispatch]);
   const listFilm = useSelector((state) => {
     return state.film.ListFilm;
@@ -69,6 +83,7 @@ const Film = (props) => {
     {
       field: "moTa",
       headerName: "Mô tả",
+      multiline: true,
       width: 750,
       editable: true,
     },
@@ -118,9 +133,36 @@ const Film = (props) => {
     };
   });
   console.log("row", rows);
+
+  const changeSearch = useCallback(
+    (e) => {
+      setTuKhoa();
+      dispatch(fetchFilm(e.target.value));
+    },
+    [setTuKhoa]
+  );
   return (
     <Layout>
       <div style={{ width: "100%" }}>
+        <form>
+          <FormControl className={classes.search}>
+            <InputLabel htmlFor="input-with-icon-adornment">
+              Bạn cần tiềm kiếm gì ?
+            </InputLabel>
+            <Input
+              id="input-with-icon-adornment"
+              name="search"
+              onChange={changeSearch}
+              startAdornment={
+                <InputAdornment position="start">
+                  <IconButton type="submit" style={{ padding: "0" }}>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </form>
         <DataGrid
           rows={rows}
           columns={columns}
