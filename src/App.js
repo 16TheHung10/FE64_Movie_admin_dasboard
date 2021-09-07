@@ -13,6 +13,7 @@ import { TokkenLogin } from "./Store/Action/Authentication";
 import { connect } from "react-redux";
 import { AdminGuard } from "./HOC/Route";
 import FilmShowtime from "./Views/FilmManager/FilmShowTime";
+import { fetchFilmById, fetchFilmById2 } from "./Store/Action/film";
 
 class App extends Component {
   render() {
@@ -26,12 +27,7 @@ class App extends Component {
               Component={Home}
               redirectPath="/admin/login"
             />
-            <AdminGuard
-              exact
-              path="/admin/login"
-              Component={AdminLogin}
-              redirectPath="/admin/login"
-            />
+            <Route exact path="/admin/login" component={AdminLogin} />
             <AdminGuard
               exact
               path="/admin/film"
@@ -63,7 +59,9 @@ class App extends Component {
     );
   }
   componentDidMount() {
-    this.props.dispatch(TokkenLogin(localStorage.getItem("taiKhoan")));
+    if (localStorage.getItem("user")) {
+      this.props.dispatch(TokkenLogin(localStorage.getItem("taiKhoan")));
+    }
   }
 }
 

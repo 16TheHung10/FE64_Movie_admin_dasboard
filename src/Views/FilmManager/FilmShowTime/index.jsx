@@ -16,8 +16,10 @@ import {
   fetchCumRapById,
   fetchFilmShowTime,
   fetchListCinema,
+  taoLichChieu,
 } from "../../../Store/Action/film";
 import { useFormik } from "formik";
+import Button from "@material-ui/core/Button";
 import dayjs from "dayjs";
 
 const FilmShowtime = (props) => {
@@ -26,20 +28,34 @@ const FilmShowtime = (props) => {
   const listFilm = useSelector((state) => {
     return state.film.ListFilm;
   });
-
   const [tenHeThongRap, setTenHeThongRap] = useState([]);
   const [tenCumRap, setTenCumRap] = useState([]);
-  const [cinema, setCinema] = useState([]);
-  const [listCumRap, setCumRap] = useState([]);
+  const [cinema, setCinema] = useState([]); //list Hệ thống rạp
+  const [listCumRap, setCumRap] = useState([]); //List Cụm rạp
+  const [tenPhim, setTenPhim] = useState([]);
+  const [maRap, setMaRap] = useState("");
   const [anhPhim, setAnhPhim] = useState({});
-  const [ngayKhoiChieu, setNgayKhoiChieu] = useState();
   const classes = useStyles();
   const maPhim = props.match.params.id;
   const formik = useFormik({
     initialValues: {
-      tenPhim: "",
+      maPhim: "",
       ngayChieuGioChieu: "",
       giaVe: "",
+      maRap: "",
+    },
+    onSubmit: (values) => {
+      const formData = new FormData();
+      for (let key in values) {
+        if (key === "ngayChieuGioChieu") {
+          const date = dayjs(values[key]).format("DD/MM/YYYY hh:mm:ss");
+          formData.append(key, date);
+          console.log("date form", formData.get("ngayChieuGioChieu"));
+        } else {
+          formData.append(key, values[key]);
+        }
+      }
+      dispatch(taoLichChieu(formData));
     },
   });
   const setValuesFomik = useCallback(
@@ -53,7 +69,11 @@ const FilmShowtime = (props) => {
   };
   const handleChangeCumRap = (event) => {
     setTenCumRap(event.target.value);
+    const fetchListRap = listCumRap.find(
+      (item) => item.tenCumRap === event.target.value
+    );
   };
+
   const functionSetCinema = useCallback((data) => {
     setCinema(data);
   });
@@ -64,97 +84,100 @@ const FilmShowtime = (props) => {
     dispatch(fetchCumRapById(maCumRap, setStateCumRap));
   };
   useEffect(() => {
-    console.log("listFilm", listFilm);
-    dispatch(fetchFilmShowTime(maPhim, setValuesFomik, setAnhPhim));
+    dispatch(fetchFilmShowTime(maPhim, setValuesFomik, setAnhPhim, setTenPhim));
     dispatch(fetchListCinema(functionSetCinema));
   }, [dispatch]);
-
-  console.log("ngay khoi chieu ", formik.values.ngayChieuGioChieu);
   return (
     <Layout>
-      <div className={classes.root}>
-        <Typography className={classes.header} variant="h2" component="h1">
-          TẠO LỊCH CHIẾU PHIM : {formik.values.tenPhim}
-        </Typography>
-        <div>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
-              <img className={classes.image} src={anhPhim} />
-            </Grid>
-            <Grid item xs={9}>
-              <Grid className={classes.fillSide}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Hệ thống rạp
-                  </InputLabel>
-                  <Select
-                    labelId="demo-mutiple-name-label"
-                    id="demo-mutiple-name"
-                    value={tenHeThongRap}
-                    onChange={handleChangeHTRap}
-                  >
-                    {cinema.map((item) => (
-                      <MenuItem
-                        onClick={() => {
-                          fetchCumRap(item.maHeThongRap);
-                        }}
-                        key={item.tenHeThongRap}
-                        value={item.tenHeThongRap}
-                      >
-                        {item.tenHeThongRap}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+      <form action="" onSubmit={formik.handleSubmit}>
+        <div className={classes.root}>
+          <Typography className={classes.header} variant="h2" component="h1">
+            TẠO LỊCH CHIẾU PHIM : {tenPhim}
+          </Typography>
+          <div>
+            <Grid container spacing={3}>
+              <Grid item xs={3}>
+                <img className={classes.image} src={anhPhim} />
+              </Grid>
+              <Grid item xs={9}>
+                <Grid className={classes.fillSide}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-helper-label">
+                      Hệ thống rạp
+                    </InputLabel>
+                    <Select
+                      labelId="demo-mutiple-name-label"
+                      id="demo-mutiple-name"
+                      value={tenHeThongRap}
+                      onChange={handleChangeHTRap}
+                    >
+                      {cinema.map((item) => (
+                        <MenuItem
+                          onClick={() => {
+                            fetchCumRap(item.maHeThongRap);
+                          }}
+                          key={item.tenHeThongRap}
+                          value={item.tenHeThongRap}
+                        >
+                          {item.tenHeThongRap}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Cụm rạp
-                  </InputLabel>
-                  <Select
-                    labelId="demo-mutiple-name-label"
-                    id="demo-mutiple-name"
-                    value={tenCumRap}
-                    onChange={handleChangeCumRap}
-                  >
-                    {listCumRap.map((item) => (
-                      <MenuItem
-                        // onClick={() => {
-                        //   fetchCumRap(item.maHeThongRap);
-                        // }}
-                        key={item.maCumRap}
-                        value={item.tenCumRap}
-                      >
-                        {item.tenCumRap}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <TextField
-                  id="date"
-                  label="Ngày khởi chiếu"
-                  type="datetime-local"
-                  name="ngayChieuGioChieu"
-                  value={formik.values.ngayChieuGioChieu}
-                  className={classes.formControl}
-                  onChange={formik.handleChange}
-                  //   InputLabelProps={{
-                  //     shrink: true,
-                  //   }}
-                />
-                <TextField
-                  label="Giá vé"
-                  name="giaVe"
-                  type="number"
-                  value={formik.giaVe}
-                  className={classes.formControl}
-                  onChange={formik.handleChange}
-                />
+                  <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-helper-label">
+                      Cụm rạp
+                    </InputLabel>
+                    <Select
+                      labelId="demo-mutiple-name-label"
+                      id="demo-mutiple-name"
+                      value={tenCumRap}
+                      onChange={handleChangeCumRap}
+                    >
+                      {listCumRap.map((item) => (
+                        <MenuItem
+                          onClick={() => {
+                            formik.setFieldValue("maRap", item.maCumRap);
+                          }}
+                          key={item.maCumRap}
+                          value={item.tenCumRap}
+                        >
+                          {item.tenCumRap}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <TextField
+                    id="date"
+                    label="Ngày khởi chiếu"
+                    type="datetime-local"
+                    name="ngayChieuGioChieu"
+                    value={formik.values.ngayChieuGioChieu}
+                    className={classes.formControl}
+                    onChange={formik.handleChange}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <TextField
+                    label="Giá vé"
+                    name="giaVe"
+                    type="number"
+                    value={formik.values.giaVe}
+                    className={classes.formControl}
+                    onChange={formik.handleChange}
+                  />
+                </Grid>
+                <Button variant="contained" color="primary" type="submit">
+                  Tạo lịch chiếu
+                </Button>
               </Grid>
             </Grid>
-          </Grid>
+          </div>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 };

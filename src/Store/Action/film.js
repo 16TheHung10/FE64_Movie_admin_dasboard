@@ -53,7 +53,7 @@ export const fetchFilmById = (maPhim, callBack) => {
       });
   };
 };
-export const fetchFilmShowTime = (maPhim, callback, setState) => {
+export const fetchFilmById2 = (maPhim) => {
   return (dispatch) => {
     request({
       url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?",
@@ -62,14 +62,29 @@ export const fetchFilmShowTime = (maPhim, callback, setState) => {
       },
     })
       .then((res) => {
-        const date = dayjs(res.data.content.ngayKhoiChieu).format("YYYY-MM-DD");
+        dispatch(createAction(actionTypes.SET_FILM_DETAIL, res.data.content));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+export const fetchFilmShowTime = (maPhim, callback, setImage, setTenPhim) => {
+  return (dispatch) => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?",
+      params: {
+        MaPhim: maPhim,
+      },
+    })
+      .then((res) => {
         const object = {
-          tenPhim: res.data.content.tenPhim,
+          maPhim: res.data.content.maPhim,
           ngayChieuGioChieu: res.data.content.ngayKhoiChieu,
-          // ngayKhoiChieu: date,
         };
         callback(object);
-        setState(res.data.content.hinhAnh);
+        setImage(res.data.content.hinhAnh);
+        setTenPhim(res.data.content.tenPhim);
         dispatch(createAction(actionTypes.SET_FILM_DETAIL, res.data.content));
       })
       .catch((err) => {
@@ -93,7 +108,7 @@ export const addNewFilm = (data) => {
       });
   };
 };
-export const editFilm = (data) => {
+export const editFilm = (data, callBack) => {
   request({
     url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload",
     method: "POST",
@@ -102,6 +117,7 @@ export const editFilm = (data) => {
     .then((res) => {
       console.log("Edit film res", res);
       alert("Sửa phim thành công");
+      callBack();
     })
     .catch((err) => {
       console.log("Edit film err", err);
@@ -133,7 +149,6 @@ export const fetchListCinema = (callback) => {
       method: "GET",
     })
       .then((res) => {
-        console.log("Fetch List Cinema", res.data.content);
         // dispatch(createAction(actionTypes.SET_CINEMA, res.data.content));
         callback(res.data.content);
       })
@@ -157,6 +172,21 @@ export const fetchCumRapById = (id, callback) => {
       })
       .catch((err) => {
         console.log("Fetch List Cum rap err", err);
+      });
+  };
+};
+export const taoLichChieu = (data) => {
+  return () => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/TaoLichChieu",
+      method: "POST",
+      body: data,
+    })
+      .then((res) => {
+        console.log("tao lich chieu res", res);
+      })
+      .catch((err) => {
+        console.log("tao lich chieu err", err);
       });
   };
 };

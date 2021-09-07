@@ -1,6 +1,6 @@
 import { Button, FormControlLabel, Switch, TextField } from "@material-ui/core";
 import React, { memo, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../../HOC/Layout";
 import { editFilm, fetchFilmById } from "../../../Store/Action/film";
 import { useStyles } from "./style";
@@ -9,9 +9,17 @@ import { useCallback } from "react";
 import dayjs from "dayjs";
 const FilmEdit = (props) => {
   const dispatch = useDispatch();
+  const filmDetail = useSelector((state) => {
+    return state.film.FilmDetail;
+  });
+  console.log("filmDetail", filmDetail);
   const [hinhAnh, setHinhAnh] = useState("");
   const classes = useStyles();
   const [dayFormatNgayKhoiChieu, setDayFormatNgayKhoiChieu] = useState("");
+  const date = dayjs(filmDetail.ngayKhoiChieu).format("YYYY-DD-MM");
+  const goToListFilm = () => {
+    props.history.push("/admin/film");
+  };
   const formik = useFormik({
     initialValues: {
       tenPhim: "",
@@ -37,7 +45,7 @@ const FilmEdit = (props) => {
         }
         console.log(key, formData.get(key));
       }
-      dispatch(editFilm(formData));
+      dispatch(editFilm(formData, goToListFilm));
     },
   });
   const callBackFilmInfo = (data, date) => {
@@ -47,14 +55,8 @@ const FilmEdit = (props) => {
   useEffect(() => {
     const maPhim = props.match.params.id;
     dispatch(fetchFilmById(maPhim, callBackFilmInfo));
-  }, [dispatch, props.match.params.id]);
-  const handleSubmits = useCallback(
-    (e) => {
-      e.preventDefault();
-      console.log("valuesssssssss", formik.values);
-    },
-    [formik.values]
-  );
+  }, []);
+
   const handleChangeFile = (e) => {
     //lấy file ra từ e
     let file = e.target.files[0];

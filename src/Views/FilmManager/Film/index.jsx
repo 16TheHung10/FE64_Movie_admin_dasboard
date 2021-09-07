@@ -30,6 +30,9 @@ const Film = (props) => {
       dispatch(createAction(actionTypes.DELETE_FILM, listFilmNew));
     }
   };
+  const setIDLocalStorage = (maPhim) => {
+    localStorage.setItem("maPhim", maPhim);
+  };
   const columns = [
     { field: "id", headerName: "STT", width: 110 },
     {
@@ -91,7 +94,10 @@ const Film = (props) => {
               <DeleteOutlineIcon />
             </IconButton>
             <IconButton style={{ height: "45px" }}>
-              <NavLink to={`/admin/film/showtime/${params.value}`}>
+              <NavLink
+                onClick={() => setIDLocalStorage(params.value)}
+                to={`/admin/film/showtime/${params.value}`}
+              >
                 <EventNoteIcon color="secondary" />
               </NavLink>
             </IconButton>

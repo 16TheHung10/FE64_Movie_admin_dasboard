@@ -21,6 +21,7 @@ export const useStyles = makeStyles((theme) => {
     },
     header: {
       textTransform: "uppercase",
+      marginBottom: "40px",
     },
     hinhAnh: {
       height: "300px",
