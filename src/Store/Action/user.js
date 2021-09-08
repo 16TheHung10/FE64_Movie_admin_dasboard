@@ -65,3 +65,73 @@ export const searchPagination = (tuKhoa, soTrang, setTotalPages) => {
       });
   };
 };
+export const fetchMaLoaiNguoiDUng = () => {
+  return (dispatch) => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/LayDanhSachLoaiNguoiDung",
+      method: "GET",
+    })
+      .then((res) => {
+        console.log("RES", res.data.content);
+        dispatch(
+          createAction(actionTypes.SET_MALOAINGUOIDUNG, res.data.content)
+        );
+      })
+      .catch((err) => {
+        console.log("err.response", err.response);
+      });
+  };
+};
+export const addUser = (data, callBack) => {
+  return () => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThemNguoiDung",
+      method: "POST",
+      body: data,
+    })
+      .then((res) => {
+        console.log("RES", res);
+        alert("Thêm thành công");
+        callBack();
+      })
+      .catch((err) => {
+        alert(err.response.data.content);
+      });
+  };
+};
+export const editUser = (data, callBack) => {
+  return () => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+      method: "POST",
+      body: data,
+    })
+      .then((res) => {
+        console.log("RES", res);
+        alert("Sửa thành công");
+        callBack();
+      })
+      .catch((err) => {
+        alert(err.response.data.content);
+      });
+  };
+};
+export const fetchUser = (taiKhoan, setUser, nguoiDung) => {
+  return () => {
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/LayThongTinNguoiDung?",
+      method: "POST",
+      params: {
+        taiKhoan: taiKhoan,
+      },
+    })
+      .then((res) => {
+        setUser(res.data.content);
+        nguoiDung(res.data.content);
+        console.log("userrrrrrrrrrrr", res.data.content);
+      })
+      .catch((err) => {
+        console.log("ERROR", err);
+      });
+  };
+};

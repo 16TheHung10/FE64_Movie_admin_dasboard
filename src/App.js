@@ -16,6 +16,7 @@ import FilmShowtime from "./Views/FilmManager/FilmShowTime";
 import { fetchFilmById, fetchFilmById2 } from "./Store/Action/film";
 import ListUser from "./Views/UserManager/ListUser";
 import AddUser from "./Views/UserManager/AddUser";
+import EditUser from "./Views/UserManager/EditUser";
 
 class App extends Component {
   render() {
@@ -64,6 +65,12 @@ class App extends Component {
               exact
               path="/admin/quanlynguoidung/add"
               Component={AddUser}
+              redirectPath="/admin/login"
+            />
+            <AdminGuard
+              exact
+              path="/admin/quanlynguoidung/edit/:taiKhoan"
+              Component={EditUser}
               redirectPath="/admin/login"
             />
             <Route path="*" component={PageNotFound} />

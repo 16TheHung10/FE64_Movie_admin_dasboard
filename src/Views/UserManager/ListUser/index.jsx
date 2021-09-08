@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import { useStyles } from "./style";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import Pagination from "@material-ui/lab/Pagination";
@@ -30,7 +30,7 @@ import Divider from "@material-ui/core/Divider";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import DirectionsIcon from "@material-ui/icons/Directions";
-const ListUser = () => {
+const ListUser = (props) => {
   const dispatch = useDispatch();
   const [soTrang, setSoTrang] = useState(1);
   const [tuKhoa, setTuKhoa] = useState(1);
@@ -70,6 +70,9 @@ const ListUser = () => {
     } else {
       dispatch(fetchListUser(soTrang, setTotalPages));
     }
+  };
+  const handleEditUser = (taiKhoan) => {
+    props.history.push(`/admin/quanlynguoidung/edit/${taiKhoan}`);
   };
   return (
     <Layout>
@@ -117,7 +120,7 @@ const ListUser = () => {
             </TableHead>
             <TableBody>
               {listUser.map((item, index) => (
-                <TableRow key={item.name}>
+                <TableRow key={index}>
                   <TableCell component="th" scope="row">
                     {index + 1}
                   </TableCell>
@@ -128,7 +131,11 @@ const ListUser = () => {
                   <TableCell align="left">{item.soDt}</TableCell>
                   <TableCell align="left">
                     <IconButton style={{ height: "45px" }} variant="contained">
-                      <EditIcon />
+                      <EditIcon
+                        onClick={() => {
+                          handleEditUser(item.taiKhoan);
+                        }}
+                      />
                     </IconButton>
                     <IconButton
                       variant="contained"
@@ -137,7 +144,12 @@ const ListUser = () => {
                         handleDelete(item.taiKhoan);
                       }}
                     >
-                      <DeleteOutlineIcon />
+                      <Link
+                        className={classes.link}
+                        to={"/admin/quanlynguoidung/edit"}
+                      >
+                        <DeleteOutlineIcon />
+                      </Link>
                     </IconButton>
                   </TableCell>
                 </TableRow>
