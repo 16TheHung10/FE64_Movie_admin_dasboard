@@ -54,7 +54,7 @@ const AddUser = (props) => {
   console.log("loaiNguoiDUng", formik.values);
   return (
     <Layout>
-      <Paper className={classes.root}>
+      <Paper>
         <div className={classes.root}>
           <Typography className={classes.header} variant="h3" component="h1">
             THÊM NGƯỜI DÙNG

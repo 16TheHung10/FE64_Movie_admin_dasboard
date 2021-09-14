@@ -3,19 +3,23 @@ import Header from "../../Component/Header/index";
 import Sidebar from "../../Component/SideBar/index";
 import useStyles from "./style";
 import classNames from "classnames";
+import Grid from "@material-ui/core/Grid";
+import { Paper } from "@material-ui/core";
 const Layout = (props) => {
   const classes = useStyles();
   return (
     <div className={classNames("container-fluid p-0")}>
-      <div className="row">
-        <div className={classNames("col-md-2  p-0", classes.layoutSidebar)}>
+      <Grid container>
+        <Grid item xs={2} style={{ backgroundColor: "#222b36" }}>
           <Sidebar />
-        </div>
-        <div className="col-md-10  p-0">
-          <Header />
-          <div className={classes.propsChildren}>{props.children}</div>
-        </div>
-      </div>
+        </Grid>
+        <Grid item xs={10}>
+          <Paper className={classes.paper}>
+            <Header />
+            <div className={classes.propsChildren}>{props.children}</div>
+          </Paper>
+        </Grid>
+      </Grid>
     </div>
   );
 };

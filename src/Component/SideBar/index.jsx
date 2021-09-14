@@ -16,10 +16,10 @@ function Sidebar() {
     return state.auth.me;
   });
   return (
-    <div className="mt-1">
+    <div className={classes.bgDark}>
       <div className="">
         <div className="">
-          <div className={classNames(classes.sidebarProfile)}>
+          <div>
             <Typography
               className={classes.sidebarProfile}
               variant="body1"

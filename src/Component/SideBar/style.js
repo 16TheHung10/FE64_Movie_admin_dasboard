@@ -7,6 +7,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     marginTop: 0,
   },
+  bgDark: {
+    backgroundColor: theme.palette.primary.main,
+  },
   accordion: {
     backgroundColor: theme.palette.primary.main,
     color: "white",
@@ -18,11 +21,14 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontSize: "32px",
     height: "100%",
-    margin: "20px 17px",
+    padding: "40px 20px",
+    borderRadius: "40px 20px",
+    margin: "32px",
+    backgroundColor: "red",
     display: "flex",
-    padding: "0px 10px",
     alignItems: "center",
     flexDirection: "column",
+    backgroundColor: "#171c24",
   },
   avatar: {
     width: "100px",
@@ -36,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     color: "white",
+    marginLeft: "20px",
     "&:hover": {
       textDecoration: "none",
       color: "red",

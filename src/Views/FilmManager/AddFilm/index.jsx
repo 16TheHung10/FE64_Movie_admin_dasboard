@@ -26,7 +26,7 @@ const FilmEdit = (props) => {
       hot: false,
       hinhAnh: "",
       danhGia: "",
-      ngayKhoiChieu: "2021-09-01",
+      ngayKhoiChieu: "2021-09-20",
     },
     onSubmit: (values) => {
       formik.setFieldValue("ngayKhoiChieu", today);
@@ -69,7 +69,7 @@ const FilmEdit = (props) => {
       setHinhAnh(e.target.result);
     };
   };
-
+  console.log("todayyyyyyyyyyyy", today);
   return (
     <Layout>
       <h1 className="text-center">THÊM PHIM</h1>
@@ -83,6 +83,7 @@ const FilmEdit = (props) => {
             onChange={formik.handleChange}
             value={formik.values.tenPhim}
             className={classes.inputField}
+            color="secondary"
             fullWidth
             label="Tên Phim"
             variant="outlined"
@@ -122,7 +123,7 @@ const FilmEdit = (props) => {
             type="date"
             name="ngayKhoiChieu"
             onChange={formik.handleChange}
-            value={today}
+            value={formik.values.ngayKhoiChieu}
             className={classes.inputField}
             InputLabelProps={{
               shrink: true,
