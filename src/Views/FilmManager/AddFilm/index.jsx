@@ -72,150 +72,155 @@ const FilmEdit = (props) => {
   console.log("todayyyyyyyyyyyy", today);
   return (
     <Layout>
-      <h1 className="text-center">THÊM PHIM</h1>
-      <div className={classes.form}>
-        <form
-          action=""
-          onSubmit={formik.handleSubmit}
-          className={classes.formHeading}
-        >
-          <TextField
-            onChange={formik.handleChange}
-            value={formik.values.tenPhim}
-            className={classes.inputField}
-            color="secondary"
-            fullWidth
-            label="Tên Phim"
-            variant="outlined"
-            name="tenPhim"
-          />
-          <TextField
-            onChange={formik.handleChange}
-            className={classes.inputField}
-            value={formik.values.maPhim}
-            fullWidth
-            label="Mã Phim"
-            variant="outlined"
-            name="maPhim"
-          />
-          <TextField
-            onChange={formik.handleChange}
-            className={classes.inputField}
-            value={formik.values.trailer}
-            fullWidth
-            label="Trailer"
-            variant="outlined"
-            name="trailer"
-          />
-          <TextField
-            onChange={formik.handleChange}
-            className={classes.inputField}
-            value={formik.values.moTa}
-            fullWidth
-            multiline={true}
-            label="Mô tả"
-            variant="outlined"
-            name="moTa"
-          />
-          <TextField
-            id="date"
-            label="Ngày khởi chiếu"
-            type="date"
-            name="ngayKhoiChieu"
-            onChange={formik.handleChange}
-            value={formik.values.ngayKhoiChieu}
-            className={classes.inputField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <FormControlLabel
-            label="Đang Chiếu"
-            checked={formik.values.dangChieu}
-            className={classes.inputField}
-            control={
-              <Switch
-                disabled={disabledDangChieu}
-                onChange={formik.handleChange}
-                name="dangChieu"
-              />
-            }
-          />
-          <FormControlLabel
-            className={classes.inputField}
-            checked={formik.values.sapChieu}
-            label="Sắp Chiếu"
-            control={
-              <Switch
-                disabled={disabledSapChieu}
-                onChange={formik.handleChange}
-                name="sapChieu"
-              />
-            }
-          />
-          <FormControlLabel
-            className={classes.inputField}
-            checked={formik.values.hot}
-            label="Hot"
-            control={<Switch onChange={formik.handleChange} name="hot" />}
-          />
-          <TextField
-            onChange={formik.handleChange}
-            className={classes.inputField}
-            value={formik.values.danhGia}
-            fullWidth
-            type="number"
-            label="Số sao"
-            variant="outlined"
-            name="danhGia"
-          />
-
-          <input
-            accept="image/*"
-            className={classes.input}
-            style={{ display: "none" }}
-            id="raised-button-file"
-            multiple
-            name=""
-            type="file"
-            accept="image/png,image/gif,image/jpeg,image/apng,image/avif,image/webp,image/svg+xml"
-            onChange={handleChangeFile}
-          />
-          <label htmlFor="raised-button-file">
-            Hình ảnh :
-            <Button
-              className="ml-4"
-              variant="contained"
-              color="secondary"
-              component="span"
-            >
-              upLoad
-            </Button>
-          </label>
-          {formik.values.hinhAnh === "" ? (
-            ""
-          ) : (
-            <img
-              style={{
-                width: "380px",
-                height: "200px",
-                borderRadius: "7px",
-                boxShadow: " rgb(0 0 0 / 90%) 0px 5px 15px",
-                marginBottom: "30px",
-              }}
-              src={hinhAnh}
-              alt={formik.values.tenPhim}
-            />
-          )}
-          <Button
-            color="secondary"
-            variant="contained"
-            className={classes.btnSubmit}
-            type="submit"
+      <div className={classes.root}>
+        <h1 className="text-center pt-3">THÊM PHIM</h1>
+        <div className={classes.form}>
+          <form
+            action=""
+            onSubmit={formik.handleSubmit}
+            className={classes.formHeading}
           >
-            Submit
-          </Button>
-        </form>
+            <TextField
+              onChange={formik.handleChange}
+              value={formik.values.tenPhim}
+              className={classes.inputField}
+              color="secondary"
+              fullWidth
+              label="Tên Phim"
+              variant="outlined"
+              name="tenPhim"
+            />
+            <TextField
+              onChange={formik.handleChange}
+              className={classes.inputField}
+              value={formik.values.maPhim}
+              fullWidth
+              label="Mã Phim"
+              variant="outlined"
+              name="maPhim"
+              InputProps={{
+                className: classes.inputColor,
+              }}
+            />
+            <TextField
+              onChange={formik.handleChange}
+              className={classes.inputField}
+              value={formik.values.trailer}
+              fullWidth
+              label="Trailer"
+              variant="outlined"
+              name="trailer"
+            />
+            <TextField
+              onChange={formik.handleChange}
+              className={classes.inputField}
+              value={formik.values.moTa}
+              fullWidth
+              multiline={true}
+              label="Mô tả"
+              variant="outlined"
+              name="moTa"
+            />
+            <TextField
+              id="date"
+              label="Ngày khởi chiếu"
+              type="date"
+              name="ngayKhoiChieu"
+              onChange={formik.handleChange}
+              value={formik.values.ngayKhoiChieu}
+              className={classes.inputField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormControlLabel
+              label="Đang Chiếu"
+              checked={formik.values.dangChieu}
+              className={classes.inputField}
+              control={
+                <Switch
+                  disabled={disabledDangChieu}
+                  onChange={formik.handleChange}
+                  name="dangChieu"
+                />
+              }
+            />
+            <FormControlLabel
+              className={classes.inputField}
+              checked={formik.values.sapChieu}
+              label="Sắp Chiếu"
+              control={
+                <Switch
+                  disabled={disabledSapChieu}
+                  onChange={formik.handleChange}
+                  name="sapChieu"
+                />
+              }
+            />
+            <FormControlLabel
+              className={classes.inputField}
+              checked={formik.values.hot}
+              label="Hot"
+              control={<Switch onChange={formik.handleChange} name="hot" />}
+            />
+            <TextField
+              onChange={formik.handleChange}
+              className={classes.inputField}
+              value={formik.values.danhGia}
+              fullWidth
+              type="number"
+              label="Số sao"
+              variant="outlined"
+              name="danhGia"
+            />
+
+            <input
+              accept="image/*"
+              className={classes.input}
+              style={{ display: "none" }}
+              id="raised-button-file"
+              multiple
+              name=""
+              type="file"
+              accept="image/png,image/gif,image/jpeg,image/apng,image/avif,image/webp,image/svg+xml"
+              onChange={handleChangeFile}
+            />
+            <label htmlFor="raised-button-file">
+              Hình ảnh :
+              <Button
+                className="ml-4"
+                variant="contained"
+                color="secondary"
+                component="span"
+              >
+                upLoad
+              </Button>
+            </label>
+            {formik.values.hinhAnh === "" ? (
+              ""
+            ) : (
+              <img
+                style={{
+                  width: "380px",
+                  height: "200px",
+                  borderRadius: "7px",
+                  boxShadow: " rgb(0 0 0 / 90%) 0px 5px 15px",
+                  marginBottom: "30px",
+                }}
+                src={hinhAnh}
+                alt={formik.values.tenPhim}
+              />
+            )}
+            <Button
+              color="secondary"
+              variant="contained"
+              className={classes.btnSubmit}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </form>
+        </div>
       </div>
     </Layout>
   );

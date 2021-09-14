@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => {
       height: "calc(93vh + 3px)",
       overflow: "scroll",
       padding: "20px",
+      backgroundColor: "#eff3f7",
     },
   };
 });

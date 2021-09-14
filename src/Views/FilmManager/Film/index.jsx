@@ -133,47 +133,49 @@ const Film = (props) => {
   console.log(formik.values);
   return (
     <Layout>
-      <div style={{ width: "100%" }}>
-        <Typography
-          variant="h2"
-          component="h2"
-          style={{
-            color: "black",
-            textTransform: "uppercase",
-            textAlign: "center",
-            margin: "20px 0 40px 0",
-          }}
-        >
-          Quản lý him
-        </Typography>
+      <div className={classes.root}>
+        <div className={classes.main}>
+          <Typography
+            variant="h2"
+            component="h2"
+            style={{
+              color: "black",
+              textTransform: "uppercase",
+              textAlign: "center",
+              paddingTop: "20px",
+            }}
+          >
+            Quản lý phim
+          </Typography>
 
-        {/* Search */}
-        <Paper
-          component="form"
-          onSubmit={searchSubmit}
-          className={classes.searchRoot}
-        >
-          <InputBase
-            onChange={formik.handleChange}
-            className={classes.input}
-            name="tuKhoa"
-            value={formik.values.tuKhoa}
-            placeholder="Tìm kiếm"
+          {/* Search */}
+          <Paper
+            component="form"
+            onSubmit={searchSubmit}
+            className={classes.searchRoot}
+          >
+            <InputBase
+              onChange={formik.handleChange}
+              className={classes.input}
+              name="tuKhoa"
+              value={formik.values.tuKhoa}
+              placeholder="Tìm kiếm"
+            />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon />
+            </IconButton>
+          </Paper>
+
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight={true}
+            pageSize={14}
+            rowHeight={200}
+            checkboxSelection
+            disableSelectionOnClick
           />
-          <IconButton type="submit" aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </Paper>
-
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          autoHeight={true}
-          pageSize={14}
-          rowHeight={200}
-          checkboxSelection
-          disableSelectionOnClick
-        />
+        </div>
       </div>
     </Layout>
   );

@@ -1,6 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => {
   return {
+    main: {
+      backgroundColor: "white",
+      borderRadius: "10px",
+      boxShadow:
+        "rgb(0 0 0 / 55%) 0px 10px 36px 0px, rgb(0 0 0 / 6%) 0px 0px 0px 1px",
+      padding: "10px",
+    },
     successColor: {
       backgroundColor: theme.palette.success.main,
       "&:hover": {
@@ -14,9 +21,6 @@ const useStyles = makeStyles((theme) => {
         textDecoration: "none",
         color: "white",
       },
-    },
-    MuiTablePaginationSelectIcon: {
-      padding: "100px",
     },
     search: {
       margin: "20px 10px",
