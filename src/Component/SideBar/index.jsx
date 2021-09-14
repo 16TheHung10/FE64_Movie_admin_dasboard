@@ -37,16 +37,16 @@ function Sidebar() {
                 id="panel1a-header"
                 className={classes.expandIcon}
               >
-                <Typography className={classes.heading}>Film</Typography>
+                <Typography className={classes.heading}>Phim</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Link className={classes.link} to={"/admin/film"}>
-                  Film Manager
+                  Quản lý phim
                 </Link>
               </AccordionDetails>
               <AccordionDetails>
                 <Link className={classes.link} to={"/admin/film/add"}>
-                  Add new film
+                  Thêm phim mới
                 </Link>
               </AccordionDetails>
             </Accordion>
