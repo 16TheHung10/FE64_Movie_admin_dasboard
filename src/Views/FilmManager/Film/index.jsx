@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import Layout from "../../../HOC/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,24 +6,23 @@ import { deleteFilm, fetchFilm } from "../../../Store/Action/film";
 import { NavLink } from "react-router-dom";
 import { createAction } from "../../../Store/Action";
 import { actionTypes } from "../../../Store/Action/type";
-import {
-  FormControl,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-} from "@material-ui/core";
+import { IconButton, InputBase, Paper, Typography } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "./style";
+import { useFormik } from "formik";
 const Film = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [tuKhoa, setTuKhoa] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      tuKhoa: "",
+    },
+  });
   useEffect(() => {
-    dispatch(fetchFilm(""));
+    dispatch(fetchFilm());
   }, [dispatch]);
   const listFilm = useSelector((state) => {
     return state.film.ListFilm;
@@ -38,9 +37,9 @@ const Film = (props) => {
       dispatch(createAction(actionTypes.DELETE_FILM, listFilmNew));
     }
   };
-  const setIDLocalStorage = (maPhim) => {
+  const setIDLocalStorage = useCallback((maPhim) => {
     localStorage.setItem("maPhim", maPhim);
-  };
+  });
   const columns = [
     { field: "id", headerName: "STT", width: 110 },
     {
@@ -78,7 +77,7 @@ const Film = (props) => {
       field: "moTa",
       headerName: "Mô tả",
       multiline: true,
-      width: 750,
+      width: 700,
       editable: true,
     },
     {
@@ -126,37 +125,46 @@ const Film = (props) => {
       actions: item.maPhim,
     };
   });
-  console.log("row", rows);
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchFilm(formik.values.tuKhoa));
+  };
 
-  const changeSearch = useCallback(
-    (e) => {
-      setTuKhoa();
-      dispatch(fetchFilm(e.target.value));
-    },
-    [setTuKhoa]
-  );
+  console.log(formik.values);
   return (
     <Layout>
       <div style={{ width: "100%" }}>
-        <form>
-          <FormControl className={classes.search}>
-            <InputLabel htmlFor="input-with-icon-adornment">
-              Bạn cần tiềm kiếm gì ?
-            </InputLabel>
-            <Input
-              id="input-with-icon-adornment"
-              name="search"
-              onChange={changeSearch}
-              startAdornment={
-                <InputAdornment position="start">
-                  <IconButton type="submit" style={{ padding: "0" }}>
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-        </form>
+        <Typography
+          variant="h2"
+          component="h2"
+          style={{
+            color: "black",
+            textTransform: "uppercase",
+            textAlign: "center",
+            margin: "20px 0 40px 0",
+          }}
+        >
+          Quản lý him
+        </Typography>
+
+        {/* Search */}
+        <Paper
+          component="form"
+          onSubmit={searchSubmit}
+          className={classes.searchRoot}
+        >
+          <InputBase
+            onChange={formik.handleChange}
+            className={classes.input}
+            name="tuKhoa"
+            value={formik.values.tuKhoa}
+            placeholder="Tìm kiếm"
+          />
+          <IconButton type="submit" aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+
         <DataGrid
           rows={rows}
           columns={columns}

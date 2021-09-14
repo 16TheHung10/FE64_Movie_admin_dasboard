@@ -17,8 +17,8 @@ function Sidebar() {
   });
   return (
     <div className={classes.bgDark}>
-      <div className="">
-        <div className="">
+      <div>
+        <div>
           <div>
             <Typography
               className={classes.sidebarProfile}

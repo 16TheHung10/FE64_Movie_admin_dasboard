@@ -14,6 +14,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import { useStyles } from "./style";
@@ -21,7 +22,6 @@ import { Link } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import Pagination from "@material-ui/lab/Pagination";
-import { Typography } from "antd";
 import { createAction } from "../../../Store/Action";
 import { actionTypes } from "../../../Store/Action/type";
 import InputBase from "@material-ui/core/InputBase";
@@ -58,9 +58,8 @@ const ListUser = (props) => {
   const handleChangeSearch = (e) => {
     setTuKhoa(e.target.value);
   };
-  const searSubmit = (e) => {
+  const searchSubmit = (e) => {
     e.preventDefault();
-    console.log("đã submit");
     if (tuKhoa !== "") {
       dispatch(searchPagination(tuKhoa, soTrang, setTotalPages));
     } else {
@@ -70,11 +69,12 @@ const ListUser = (props) => {
   const handleEditUser = (taiKhoan) => {
     props.history.push(`/admin/quanlynguoidung/edit/${taiKhoan}`);
   };
+
   return (
     <Layout>
       <TableContainer component={Paper} className={classes.root}>
         <Typography
-          variant="h1"
+          variant="h2"
           component="h2"
           style={{
             color: "black",
@@ -88,7 +88,7 @@ const ListUser = (props) => {
 
         <Paper
           component="form"
-          onSubmit={searSubmit}
+          onSubmit={searchSubmit}
           className={classes.searchRoot}
         >
           <InputBase

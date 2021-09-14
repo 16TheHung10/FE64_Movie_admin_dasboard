@@ -2,40 +2,35 @@ import { createAction } from ".";
 import { request } from "../../Api";
 import { actionTypes } from "./type";
 import * as dayjs from "dayjs";
-export const fetchFilm = (tuKhoa = "") => {
+export const fetchFilm = (tuKhoa) => {
   return (dispatch) => {
+    let listFilm;
     if (tuKhoa === "") {
-      request({
+      listFilm = request({
         url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
         method: "GET",
         params: {
           maNhom: "GP01",
         },
-      })
-        .then((res) => {
-          console.log("res", res.data);
-          dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      });
     } else {
-      request({
+      listFilm = request({
         url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
         method: "GET",
         params: {
           maNhom: "GP01",
           tenPhim: tuKhoa,
         },
-      })
-        .then((res) => {
-          console.log("res", res.data);
-          dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      });
     }
+    listFilm
+      .then((res) => {
+        console.log("res", res.data);
+        dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
