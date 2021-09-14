@@ -7,8 +7,7 @@ const createRoute = (conditions) => {
       const { path, Component, redirectPath, exact } = this.props;
       return (
         <Route
-          path={path}
-          exact={exact}
+          {...this.props}
           render={(routeProps) => {
             if (conditions()) {
               return <Component {...routeProps} />;
