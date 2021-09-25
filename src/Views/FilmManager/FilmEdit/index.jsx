@@ -9,14 +9,12 @@ import { useCallback } from "react";
 import dayjs from "dayjs";
 const FilmEdit = (props) => {
   const dispatch = useDispatch();
-  const filmDetail = useSelector((state) => {
-    return state.film.FilmDetail;
-  });
-  console.log("filmDetail", filmDetail);
+  // const filmDetail = useSelector((state) => {
+  //   return state.film.FilmDetail;
+  // });
+  // console.log("filmDetail", filmDetail);
   const [hinhAnh, setHinhAnh] = useState("");
   const classes = useStyles();
-  const [dayFormatNgayKhoiChieu, setDayFormatNgayKhoiChieu] = useState("");
-  const date = dayjs(filmDetail.ngayKhoiChieu).format("YYYY-DD-MM");
   const goToListFilm = () => {
     props.history.push("/admin/film");
   };
@@ -48,14 +46,16 @@ const FilmEdit = (props) => {
       dispatch(editFilm(formData, goToListFilm));
     },
   });
-  const callBackFilmInfo = (data, date) => {
-    formik.setValues(data);
-    setDayFormatNgayKhoiChieu(date);
-  };
+  const callBackFilmInfo = useCallback(
+    (data, date) => {
+      formik.setValues(data);
+    },
+    [formik]
+  );
   useEffect(() => {
     const maPhim = props.match.params.id;
     dispatch(fetchFilmById(maPhim, callBackFilmInfo));
-  }, []);
+  }, [dispatch, props.match.params.id]);
 
   const handleChangeFile = (e) => {
     //lấy file ra từ e
@@ -157,7 +157,6 @@ const FilmEdit = (props) => {
           />
 
           <input
-            accept="image/*"
             className={classes.input}
             style={{ display: "none" }}
             id="raised-button-file"

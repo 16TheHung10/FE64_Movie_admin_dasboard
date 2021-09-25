@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Header from "../../Component/Header/index";
 import Sidebar from "../../Component/SideBar/index";
 import useStyles from "./style";
@@ -24,4 +24,4 @@ const Layout = (props) => {
   );
 };
 
-export default Layout;
+export default memo(Layout);

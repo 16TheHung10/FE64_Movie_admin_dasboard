@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import Layout from "../../../HOC/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,16 +12,12 @@ import EditIcon from "@material-ui/icons/Edit";
 import EventNoteIcon from "@material-ui/icons/EventNote";
 import SearchIcon from "@material-ui/icons/Search";
 import useStyles from "./style";
-import { useFormik } from "formik";
 const Film = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const formik = useFormik({
-    initialValues: {
-      tuKhoa: "",
-    },
-  });
+  const [tuKhoa, setTuKhoa] = useState();
   useEffect(() => {
+    console.log("efect");
     dispatch(fetchFilm());
   }, [dispatch]);
   const listFilm = useSelector((state) => {
@@ -33,13 +29,13 @@ const Film = (props) => {
     if (index !== -1) {
       const listFilmNew = [...listFilm];
       listFilmNew.splice(index, 1);
-      console.log("new", listFilmNew);
       dispatch(createAction(actionTypes.DELETE_FILM, listFilmNew));
     }
   };
-  const setIDLocalStorage = useCallback((maPhim) => {
+  const setIDLocalStorage = (maPhim) => {
     localStorage.setItem("maPhim", maPhim);
-  });
+  };
+
   const columns = [
     { field: "id", headerName: "STT", width: 110 },
     {
@@ -125,12 +121,17 @@ const Film = (props) => {
       actions: item.maPhim,
     };
   });
+  const handleChangeSearch = (e) => {
+    setTuKhoa(e.target.value);
+  };
   const searchSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchFilm(formik.values.tuKhoa));
+    if (tuKhoa === "") {
+      dispatch(fetchFilm());
+    } else dispatch(fetchFilm(tuKhoa));
   };
 
-  console.log(formik.values);
+  console.log("từ khóa: ", tuKhoa);
   return (
     <Layout>
       <div className={classes.root}>
@@ -155,10 +156,8 @@ const Film = (props) => {
             className={classes.searchRoot}
           >
             <InputBase
-              onChange={formik.handleChange}
+              onChange={handleChangeSearch}
               className={classes.input}
-              name="tuKhoa"
-              value={formik.values.tuKhoa}
               placeholder="Tìm kiếm"
             />
             <IconButton type="submit" aria-label="search">

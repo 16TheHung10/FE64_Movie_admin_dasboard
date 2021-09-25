@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../../HOC/Layout";
-import {
-  FormControl,
-  Input,
-  InputLabel,
-  Paper,
-  TextField,
-} from "@material-ui/core";
+import { FormControl, InputLabel, TextField } from "@material-ui/core";
 import { useStyles } from "./style";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -30,7 +24,7 @@ const AddUser = (props) => {
       hoTen: "",
       email: "",
       soDt: "",
-      maNhom: "GP01",
+      maNhom: "GP09",
       maLoaiNguoiDung: "",
     },
     onSubmit: (values) => {

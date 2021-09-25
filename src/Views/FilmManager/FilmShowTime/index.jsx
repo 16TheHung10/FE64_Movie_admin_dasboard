@@ -2,12 +2,11 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 import Layout from "../../../HOC/Layout";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./style";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   FormControl,
   Grid,
   InputLabel,
-  Paper,
   Select,
   TextField,
 } from "@material-ui/core";
@@ -25,15 +24,11 @@ import dayjs from "dayjs";
 const FilmShowtime = (props) => {
   const dispatch = useDispatch();
 
-  const listFilm = useSelector((state) => {
-    return state.film.ListFilm;
-  });
   const [tenHeThongRap, setTenHeThongRap] = useState([]);
   const [tenCumRap, setTenCumRap] = useState([]);
   const [cinema, setCinema] = useState([]); //list Hệ thống rạp
   const [listCumRap, setCumRap] = useState([]); //List Cụm rạp
   const [tenPhim, setTenPhim] = useState([]);
-  const [maRap, setMaRap] = useState("");
   const [anhPhim, setAnhPhim] = useState({});
   const classes = useStyles();
   const maPhim = props.match.params.id;
@@ -66,14 +61,14 @@ const FilmShowtime = (props) => {
   };
   const handleChangeCumRap = (event) => {
     setTenCumRap(event.target.value);
-    const fetchListRap = listCumRap.find(
-      (item) => item.tenCumRap === event.target.value
-    );
   };
 
-  const functionSetCinema = useCallback((data) => {
-    setCinema(data);
-  });
+  const functionSetCinema = useCallback(
+    (data) => {
+      setCinema(data);
+    },
+    [setCinema]
+  );
   const setStateCumRap = (data) => {
     setCumRap(data);
   };
@@ -84,8 +79,7 @@ const FilmShowtime = (props) => {
   useEffect(() => {
     dispatch(fetchFilmShowTime(maPhim, setValuesFomik, setAnhPhim, setTenPhim));
     dispatch(fetchListCinema(functionSetCinema));
-  }, [dispatch]);
-
+  }, [maPhim]);
   return (
     <Layout>
       <form action="" onSubmit={formik.handleSubmit}>
@@ -96,7 +90,7 @@ const FilmShowtime = (props) => {
           <div>
             <Grid container spacing={3}>
               <Grid item xs={3}>
-                <img className={classes.image} src={anhPhim} />
+                <img className={classes.image} src={anhPhim} alt="" />
               </Grid>
               <Grid item xs={9}>
                 <Grid className={classes.fillSide}>
@@ -110,7 +104,7 @@ const FilmShowtime = (props) => {
                       value={tenHeThongRap}
                       onChange={handleChangeHTRap}
                     >
-                      {cinema.map((item) => (
+                      {cinema?.map((item) => (
                         <MenuItem
                           onClick={() => {
                             fetchCumRap(item.maHeThongRap);

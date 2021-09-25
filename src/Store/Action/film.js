@@ -2,28 +2,16 @@ import { createAction } from ".";
 import { request } from "../../Api";
 import { actionTypes } from "./type";
 import * as dayjs from "dayjs";
-export const fetchFilm = (tuKhoa) => {
+export const fetchFilm = (tenPhim) => {
   return (dispatch) => {
-    let listFilm;
-    if (tuKhoa === "") {
-      listFilm = request({
-        url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
-        method: "GET",
-        params: {
-          maNhom: "GP01",
-        },
-      });
-    } else {
-      listFilm = request({
-        url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
-        method: "GET",
-        params: {
-          maNhom: "GP01",
-          tenPhim: tuKhoa,
-        },
-      });
-    }
-    listFilm
+    request({
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?",
+      method: "GET",
+      params: {
+        maNhom: "GP09",
+        tenPhim,
+      },
+    })
       .then((res) => {
         console.log("res", res.data);
         dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
@@ -84,7 +72,12 @@ export const fetchFilmById2 = (maPhim) => {
       });
   };
 };
-export const fetchFilmShowTime = (maPhim, callback, setImage, setTenPhim) => {
+export const fetchFilmShowTime = (
+  maPhim,
+  valueFormik,
+  setImage,
+  setTenPhim
+) => {
   return (dispatch) => {
     request({
       url: "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?",
@@ -97,8 +90,9 @@ export const fetchFilmShowTime = (maPhim, callback, setImage, setTenPhim) => {
           maPhim: res.data.content.maPhim,
           ngayChieuGioChieu: res.data.content.ngayKhoiChieu,
         };
-        callback(object);
+        valueFormik(object);
         setImage(res.data.content.hinhAnh);
+        console.log("res contenttttt", res.data.content);
         setTenPhim(res.data.content.tenPhim);
         dispatch(createAction(actionTypes.SET_FILM_DETAIL, res.data.content));
       })

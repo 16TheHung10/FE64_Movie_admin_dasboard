@@ -15,8 +15,9 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import useStyles from "./style";
+import { Link } from "react-router-dom";
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -40,7 +41,10 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  const Logout = () => {
+    // localStorage.removeItem("user");
+    console.log(props);
+  };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -53,7 +57,9 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={Logout}>
+        <Link to="/admin/login">Logout</Link>
+      </MenuItem>
     </Menu>
   );
 

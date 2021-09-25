@@ -28,18 +28,19 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 const ListUser = (props) => {
   const dispatch = useDispatch();
-  const [soTrang, setSoTrang] = useState(1);
-  const [tuKhoa, setTuKhoa] = useState(1);
-
+  const [soTrang, setSoTrang] = useState();
+  const [tuKhoa, setTuKhoa] = useState();
   const [totalPages, setTotalPages] = useState(); //Số trang của pagination
   const classes = useStyles();
-  const handleChange = (e, value) => {
-    setSoTrang(parseInt(value));
-    localStorage.setItem("page", value);
+  const handleChangePagination = (e, value) => {
+    window.scroll({ top: 0, behavior: "smooth" });
+    setSoTrang(value);
+    localStorage.setItem("page", parseInt(value));
   };
+  const page = localStorage.getItem("page");
   useEffect(() => {
-    dispatch(fetchListUser(soTrang, setTotalPages));
-  }, [soTrang, dispatch]);
+    dispatch(fetchListUser(page, setTotalPages));
+  }, [page, dispatch]);
   const listUser = useSelector((state) => {
     return state.user.listUsers;
   });
@@ -51,8 +52,6 @@ const ListUser = (props) => {
       alert("Xóa người dùng thành công");
       dispatch(createAction(actionTypes.SET_LIST_USER, listUserNew));
     } else return;
-
-    console.log("List userrrrrrrrrrr", listUserNew);
     dispatch(deleteUser(taiKhoan));
   };
   const handleChangeSearch = (e) => {
@@ -61,15 +60,14 @@ const ListUser = (props) => {
   const searchSubmit = (e) => {
     e.preventDefault();
     if (tuKhoa !== "") {
-      dispatch(searchPagination(tuKhoa, soTrang, setTotalPages));
+      dispatch(searchPagination(tuKhoa, page, setTotalPages));
     } else {
-      dispatch(fetchListUser(soTrang, setTotalPages));
+      dispatch(fetchListUser(page, setTotalPages));
     }
   };
   const handleEditUser = (taiKhoan) => {
     props.history.push(`/admin/quanlynguoidung/edit/${taiKhoan}`);
   };
-
   return (
     <Layout>
       <TableContainer component={Paper} className={classes.root}>
@@ -94,7 +92,7 @@ const ListUser = (props) => {
           <InputBase
             onChange={handleChangeSearch}
             className={classes.input}
-            placeholder="Tìm kiếm"
+            placeholder="Nhập họ tên tài khoản cần tìm"
           />
           <IconButton type="submit" aria-label="search">
             <SearchIcon />
@@ -154,9 +152,9 @@ const ListUser = (props) => {
       </TableContainer>
       <Pagination
         className={classes.pagination}
-        page={soTrang}
-        count={totalPages - 1}
-        onChange={handleChange}
+        page={parseInt(page)}
+        count={totalPages}
+        onChange={handleChangePagination}
         color="secondary"
       />
     </Layout>

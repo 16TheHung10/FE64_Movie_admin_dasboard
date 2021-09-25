@@ -7,7 +7,7 @@ export const fetchListUser = (soTrang, totalPages) => {
       url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/LayDanhSachNguoiDungPhanTrang?",
       method: "GET",
       params: {
-        MaNhom: "GP01",
+        MaNhom: "GP09",
         soTrang: soTrang,
         soPhanTuTrenTrang: "20",
       },
@@ -45,7 +45,7 @@ export const deleteUser = (taiKhoan) => {
 export const searchPagination = (tuKhoa, soTrang, setTotalPages) => {
   return (dispatch) => {
     request({
-      url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/TimKiemNguoiDungPhanTrang?MaNhom=GP01",
+      url: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/TimKiemNguoiDungPhanTrang?MaNhom=GP09",
       method: "GET",
       params: {
         tuKhoa: tuKhoa,
