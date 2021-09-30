@@ -1,6 +1,6 @@
 import "./App.css";
 import Home from "./Views/Home/index";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import PageNotFound from "./Views/PageNotFound";
 import { Component } from "react";
 import { ThemeProvider } from "@material-ui/styles";
@@ -24,6 +24,8 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Switch>
+            <Redirect exact from="/" to="/admin" />
+
             <AdminGuard
               exact
               path="/admin"
