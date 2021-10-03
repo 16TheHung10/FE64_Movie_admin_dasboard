@@ -13,7 +13,6 @@ export const fetchFilm = (tenPhim) => {
       },
     })
       .then((res) => {
-        console.log("res", res.data);
         dispatch(createAction(actionTypes.SET_LIST_FILM, res.data.content));
       })
       .catch((err) => {
@@ -48,7 +47,6 @@ export const fetchFilmById = (maPhim, callBack) => {
           ngayKhoiChieu: date,
         };
         callBack(object, date);
-        console.log("Film detail", object);
         dispatch(createAction(actionTypes.SET_FILM_DETAIL, res.data.content));
       })
       .catch((err) => {
@@ -92,7 +90,6 @@ export const fetchFilmShowTime = (
         };
         valueFormik(object);
         setImage(res.data.content.hinhAnh);
-        console.log("res contenttttt", res.data.content);
         setTenPhim(res.data.content.tenPhim);
         dispatch(createAction(actionTypes.SET_FILM_DETAIL, res.data.content));
       })
@@ -109,7 +106,6 @@ export const addNewFilm = (data) => {
       method: "POST",
     })
       .then((res) => {
-        console.log("Xử lý thành công", res);
         alert("Thêm phim thành công");
       })
       .catch((err) => {
@@ -124,7 +120,6 @@ export const editFilm = (data, callBack) => {
     body: data,
   })
     .then((res) => {
-      console.log("Edit film res", res);
       alert("Sửa phim thành công");
       callBack();
     })
@@ -142,7 +137,6 @@ export const deleteFilm = (maPhim, callback) => {
       },
     })
       .then((res) => {
-        console.log("Delete film res", res);
         alert(`Phim (${maPhim}) được xóa thành công`);
         callback();
       })
@@ -158,7 +152,6 @@ export const fetchListCinema = (callback) => {
       method: "GET",
     })
       .then((res) => {
-        // dispatch(createAction(actionTypes.SET_CINEMA, res.data.content));
         callback(res.data.content);
       })
       .catch((err) => {
@@ -176,7 +169,6 @@ export const fetchCumRapById = (id, callback) => {
       },
     })
       .then((res) => {
-        console.log("Fetch List Cum rap res", res.data.content);
         callback(res.data.content);
       })
       .catch((err) => {

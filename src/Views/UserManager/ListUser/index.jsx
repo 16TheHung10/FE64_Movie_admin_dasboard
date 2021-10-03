@@ -28,13 +28,11 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 const ListUser = (props) => {
   const dispatch = useDispatch();
-  const [soTrang, setSoTrang] = useState();
   const [tuKhoa, setTuKhoa] = useState();
   const [totalPages, setTotalPages] = useState(); //Số trang của pagination
   const classes = useStyles();
   const handleChangePagination = (e, value) => {
     window.scroll({ top: 0, behavior: "smooth" });
-    setSoTrang(value);
     localStorage.setItem("page", parseInt(value));
   };
   const page = localStorage.getItem("page");

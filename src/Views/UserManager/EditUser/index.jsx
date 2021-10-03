@@ -12,6 +12,21 @@ import { useParams } from "react-router";
 import Layout from "../../../HOC/Layout";
 import { editUser, fetchMaLoaiNguoiDUng } from "../../../Store/Action/user";
 import { useStyles } from "./style";
+import * as yup from "yup";
+
+let validationSchema = yup.object().shape({
+  hoTen: yup.string().required("Họ tên không được để trống"),
+  matKhau: yup.string().required("Mật khẩu không được để trống"),
+  email: yup
+    .string()
+    .required("email không được để trống")
+    .email("Email không đúng định dạng"),
+  soDt: yup
+    .string()
+    .required("Số điện thoại không được để trống")
+    .matches(/^[0-9]*$/g, "Số điện thoại không đúng định dạng"),
+  maLoaiNguoiDung: yup.string().required("Loại người dùng không được để trống"),
+});
 
 const EditUser = (props) => {
   const classes = useStyles();
@@ -35,17 +50,19 @@ const EditUser = (props) => {
       });
       const data = await res.data;
       formik.setValues(data.content[0]);
-      console.log(data.content[0]);
     })();
   }, []);
+  const setAllfieldTouched = () => {
+    Object.keys(formik.values).forEach((key) => {
+      formik.setFieldTouched(key);
+    });
+  };
   useEffect(() => {
     dispatch(fetchMaLoaiNguoiDUng());
   }, [dispatch]);
-
   const redirect = () => {
     props.history.push("/admin/quanlynguoidung");
   };
-
   const formik = useFormik({
     initialValues: {
       taiKhoan: "",
@@ -56,7 +73,9 @@ const EditUser = (props) => {
       maNhom: "GP09",
       maLoaiNguoiDung: "",
     },
+    validationSchema,
     onSubmit: (values) => {
+      setAllfieldTouched();
       dispatch(editUser({ ...values, maNhom: "GP09" }, redirect));
     },
   });
@@ -76,6 +95,18 @@ const EditUser = (props) => {
         <form onSubmit={formik.handleSubmit}>
           <Grid container alignContent="center" className={classes.flex}>
             <Grid item md={6}>
+              {formik.touched.taiKhoan && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    width: "90%",
+                    margin: "10px auto",
+                  }}
+                  className="text-danger"
+                >
+                  {formik.errors.taiKhoan}
+                </p>
+              )}
               <TextField
                 disabled={true}
                 className={classes.inputField}
@@ -87,6 +118,18 @@ const EditUser = (props) => {
               />
             </Grid>
             <Grid item md={6}>
+              {formik.touched.matKhau && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    width: "90%",
+                    margin: "10px auto",
+                  }}
+                  className="text-danger"
+                >
+                  {formik.errors.matKhau}
+                </p>
+              )}
               <TextField
                 className={classes.inputField}
                 name="matKhau"
@@ -97,6 +140,18 @@ const EditUser = (props) => {
               />
             </Grid>
             <Grid item md={6}>
+              {formik.touched.hoTen && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    width: "90%",
+                    margin: "10px auto",
+                  }}
+                  className="text-danger"
+                >
+                  {formik.errors.hoTen}
+                </p>
+              )}
               <TextField
                 className={classes.inputField}
                 name="hoTen"
@@ -108,6 +163,18 @@ const EditUser = (props) => {
             </Grid>
 
             <Grid item md={6}>
+              {formik.touched.email && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    width: "90%",
+                    margin: "10px auto",
+                  }}
+                  className="text-danger"
+                >
+                  {formik.errors.email}
+                </p>
+              )}
               <TextField
                 className={classes.inputField}
                 name="email"
@@ -118,6 +185,18 @@ const EditUser = (props) => {
               />
             </Grid>
             <Grid item md={6}>
+              {formik.touched.soDt && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    width: "90%",
+                    margin: "10px auto",
+                  }}
+                  className="text-danger"
+                >
+                  {formik.errors.soDt}
+                </p>
+              )}
               <TextField
                 className={classes.inputField}
                 name="soDt"
@@ -128,6 +207,18 @@ const EditUser = (props) => {
               />
             </Grid>
             <Grid item md={6}>
+              {formik.touched.maLoaiNguoiDung && (
+                <p
+                  style={{
+                    textAlign: "left",
+                    width: "90%",
+                    margin: "10px auto",
+                  }}
+                  className="text-danger"
+                >
+                  {formik.errors.maLoaiNguoiDung}
+                </p>
+              )}
               <FormControl variant="outlined" className={classes.inputField}>
                 <InputLabel>Loại người dùng</InputLabel>
                 <Select

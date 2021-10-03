@@ -42,8 +42,7 @@ export default function PrimarySearchAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   const Logout = () => {
-    // localStorage.removeItem("user");
-    console.log(props);
+    localStorage.removeItem("user");
   };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -108,30 +107,6 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">

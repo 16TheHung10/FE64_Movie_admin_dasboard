@@ -17,7 +17,6 @@ const Film = (props) => {
   const classes = useStyles();
   const [tuKhoa, setTuKhoa] = useState();
   useEffect(() => {
-    console.log("efect");
     dispatch(fetchFilm());
   }, [dispatch]);
   const listFilm = useSelector((state) => {
@@ -131,7 +130,6 @@ const Film = (props) => {
     } else dispatch(fetchFilm(tuKhoa));
   };
 
-  console.log("từ khóa: ", tuKhoa);
   return (
     <Layout>
       <div className={classes.root}>

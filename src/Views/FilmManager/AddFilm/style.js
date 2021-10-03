@@ -3,12 +3,14 @@ import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => {
   return {
     root: {
-      backgroundColor: "white",
       borderRadius: "10px",
       boxShadow: " rgb(0 0 0 / 50%) 0px 5px 15px",
     },
     form: {
-      padding: "100px 300px;",
+      padding: "0px 20px 50px",
+      borderRadius: "10px",
+      width: "70%",
+      margin: "20px auto",
     },
     formHeading: {
       display: "flex",
@@ -19,7 +21,7 @@ export const useStyles = makeStyles((theme) => {
     },
     inputField: {
       marginBottom: "30px",
-      color: "white",
+      color: "black",
     },
     textareaField: {
       width: "100%",

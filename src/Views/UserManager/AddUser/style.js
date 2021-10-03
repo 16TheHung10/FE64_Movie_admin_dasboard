@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => {
       padding: "20px",
       borderRadius: "10px",
       overflow: "hidden",
-      height: "100vh",
+      height: "87vh",
       boxShadow:
         "rgb(0 0 0 / 55%) 0px 10px 36px 0px, rgb(0 0 0 / 6%) 0px 0px 0px 1px",
     },

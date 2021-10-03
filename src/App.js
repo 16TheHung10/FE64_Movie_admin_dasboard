@@ -11,7 +11,7 @@ import AddFilm from "./Views/FilmManager/AddFilm/index";
 import AdminLogin from "./Views/Authentication/AdminLogin/index";
 import { TokkenLogin } from "./Store/Action/Authentication";
 import { connect } from "react-redux";
-import { AdminGuard } from "./HOC/Route";
+import { AdminGuard, Login } from "./HOC/Route";
 import FilmShowtime from "./Views/FilmManager/FilmShowTime";
 import { fetchFilmById, fetchFilmById2 } from "./Store/Action/film";
 import ListUser from "./Views/UserManager/ListUser";
@@ -32,7 +32,12 @@ class App extends Component {
               Component={Home}
               redirectPath="/admin/login"
             />
-            <Route exact path="/admin/login" component={AdminLogin} />
+            <Login
+              exact
+              path="/admin/login"
+              Component={AdminLogin}
+              redirectPath="/admin"
+            />
             <AdminGuard
               exact
               path="/admin/film"
