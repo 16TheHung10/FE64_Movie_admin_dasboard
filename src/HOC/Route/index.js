@@ -22,3 +22,4 @@ const createRoute = (conditions) => {
 };
 
 export const AdminGuard = createRoute(() => localStorage.getItem("user"));
+export const Login = createRoute(() => !localStorage.getItem("user"));

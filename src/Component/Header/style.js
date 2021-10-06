@@ -1,6 +1,13 @@
 import { alpha, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  home: {
+    color: "#007bff",
+    transition: "all 0.3s",
+    "&:hover": {
+      transform: "scale(1.3)",
+    },
+  },
   grow: {
     flexGrow: 1,
   },

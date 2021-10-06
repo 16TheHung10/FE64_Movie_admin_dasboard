@@ -13,7 +13,6 @@ export const fetchListUser = (soTrang, totalPages) => {
       },
     })
       .then((res) => {
-        console.log(res);
         totalPages(res.data.content.totalPages);
         dispatch(
           createAction(actionTypes.SET_LIST_USER, res.data.content.items)
@@ -54,7 +53,6 @@ export const searchPagination = (tuKhoa, soTrang, setTotalPages) => {
       },
     })
       .then((res) => {
-        console.log("searchyyy", res.data.content.items);
         setTotalPages(res.data.content.totalPages);
         dispatch(
           createAction(actionTypes.SET_LIST_USER, res.data.content.items)
@@ -72,7 +70,6 @@ export const fetchMaLoaiNguoiDUng = () => {
       method: "GET",
     })
       .then((res) => {
-        console.log("RES", res.data.content);
         dispatch(
           createAction(actionTypes.SET_MALOAINGUOIDUNG, res.data.content)
         );
@@ -90,7 +87,6 @@ export const addUser = (data, callBack) => {
       body: data,
     })
       .then((res) => {
-        console.log("RES", res);
         alert("Thêm thành công");
         callBack();
       })
@@ -107,7 +103,6 @@ export const editUser = (data, callBack) => {
       body: data,
     })
       .then((res) => {
-        console.log("RES", res);
         alert("Sửa thành công");
         callBack();
       })
@@ -128,7 +123,6 @@ export const fetchUser = (taiKhoan, setUser, nguoiDung) => {
       .then((res) => {
         setUser(res.data.content);
         nguoiDung(res.data.content);
-        console.log("userrrrrrrrrrrr", res.data.content);
       })
       .catch((err) => {
         console.log("ERROR", err);

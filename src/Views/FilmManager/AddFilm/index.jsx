@@ -7,6 +7,19 @@ import { useFormik } from "formik";
 import { useCallback } from "react";
 import { addNewFilm } from "../../../Store/Action/film";
 import * as dayjs from "dayjs";
+import * as yup from "yup";
+
+let validationSchema = yup.object().shape({
+  tenPhim: yup.string().required("Tên phim không được để trống"),
+  maPhim: yup
+    .string()
+    .required("Mã phim không được để trống")
+    .matches(/^[0-9]*$/g, "Mã phim chỉ được định dạng là số"),
+  trailer: yup.string().required("Trailer không được để trống"),
+  moTa: yup.string().required("Mô tả phim không được để trống"),
+  danhGia: yup.string().required("Đánh giá không được để trống"),
+});
+
 const FilmEdit = (props) => {
   const dispatch = useDispatch();
   const [hinhAnh, setHinhAnh] = useState("");
@@ -15,6 +28,11 @@ const FilmEdit = (props) => {
   const date = new Date();
   const today = dayjs(date).format("YYYY-MM-DD");
   const classes = useStyles();
+  const setAllfieldTouched = () => {
+    Object.keys(formik.values).forEach((key) => {
+      formik.setFieldTouched(key);
+    });
+  };
   const formik = useFormik({
     initialValues: {
       tenPhim: "",
@@ -28,7 +46,10 @@ const FilmEdit = (props) => {
       danhGia: "",
       ngayKhoiChieu: "2021-09-20",
     },
+    validationSchema,
+    validateOnMount: true,
     onSubmit: (values) => {
+      setAllfieldTouched();
       formik.setFieldValue("ngayKhoiChieu", today);
       let formData = new FormData();
       for (let key in values) {
@@ -38,7 +59,6 @@ const FilmEdit = (props) => {
         } else {
           formData.append(key, values[key]);
         }
-        console.log(key, formData.get(key));
       }
       dispatch(addNewFilm(formData));
     },
@@ -58,6 +78,7 @@ const FilmEdit = (props) => {
   useEffect(() => {
     setDisable();
   }, [setDisable]);
+
   const handleChangeFile = (e) => {
     //lấy file ra từ e
     let file = e.target.files[0];
@@ -69,7 +90,6 @@ const FilmEdit = (props) => {
       setHinhAnh(e.target.result);
     };
   };
-  console.log("todayyyyyyyyyyyy", today);
   return (
     <Layout>
       <div className={classes.root}>
@@ -80,16 +100,26 @@ const FilmEdit = (props) => {
             onSubmit={formik.handleSubmit}
             className={classes.formHeading}
           >
+            {formik.touched.tenPhim && (
+              <p style={{ textAlign: "left" }} className="text-danger">
+                {formik.errors.tenPhim}
+              </p>
+            )}
             <TextField
               onChange={formik.handleChange}
               value={formik.values.tenPhim}
               className={classes.inputField}
-              color="secondary"
               fullWidth
               label="Tên Phim"
               variant="outlined"
               name="tenPhim"
             />
+
+            {formik.touched.maPhim && (
+              <p style={{ textAlign: "left" }} className="text-danger">
+                {formik.errors.maPhim}
+              </p>
+            )}
             <TextField
               onChange={formik.handleChange}
               className={classes.inputField}
@@ -98,10 +128,13 @@ const FilmEdit = (props) => {
               label="Mã Phim"
               variant="outlined"
               name="maPhim"
-              InputProps={{
-                className: classes.inputColor,
-              }}
             />
+
+            {formik.touched.trailer && (
+              <p style={{ textAlign: "left" }} className="text-danger">
+                {formik.errors.trailer}
+              </p>
+            )}
             <TextField
               onChange={formik.handleChange}
               className={classes.inputField}
@@ -111,6 +144,12 @@ const FilmEdit = (props) => {
               variant="outlined"
               name="trailer"
             />
+
+            {formik.touched.moTa && (
+              <p style={{ textAlign: "left" }} className="text-danger">
+                {formik.errors.moTa}
+              </p>
+            )}
             <TextField
               onChange={formik.handleChange}
               className={classes.inputField}
@@ -121,6 +160,7 @@ const FilmEdit = (props) => {
               variant="outlined"
               name="moTa"
             />
+
             <TextField
               id="date"
               label="Ngày khởi chiếu"
@@ -163,6 +203,12 @@ const FilmEdit = (props) => {
               label="Hot"
               control={<Switch onChange={formik.handleChange} name="hot" />}
             />
+
+            {formik.touched.danhGia && (
+              <p style={{ textAlign: "left" }} className="text-danger">
+                {formik.errors.danhGia}
+              </p>
+            )}
             <TextField
               onChange={formik.handleChange}
               className={classes.inputField}

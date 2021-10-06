@@ -4,6 +4,7 @@ import Sidebar from "../../Component/SideBar/index";
 import useStyles from "./style";
 import classNames from "classnames";
 import Grid from "@material-ui/core/Grid";
+import "./Layout.css";
 import { Paper } from "@material-ui/core";
 const Layout = (props) => {
   const classes = useStyles();

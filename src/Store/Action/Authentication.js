@@ -11,7 +11,6 @@ export const AuthAdmin = (data, callback) => {
       method: "POST",
     })
       .then((res) => {
-        console.log(res);
         if (res.data.content.maLoaiNguoiDung === "QuanTri") {
           dispatch(createAction(actionTypes.SET_ME, res.data.content));
           localStorage.setItem("user", res.data.content.accessToken);
@@ -37,7 +36,6 @@ export const TokkenLogin = (taiKhoan) => {
       },
     })
       .then((res) => {
-        console.log("TokkenLogin", res);
         dispatch(createAction(actionTypes.SET_ME, res.data.content));
       })
       .catch((err) => {
