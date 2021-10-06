@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme) => {
     //   backgroundColor: theme.palette.primary.main,
     // },
     propsChildren: {
-      height: "calc(93vh + 3px)",
-      overflow: "scroll",
+      height: "calc(93vh + 1px)",
+      overflowY: "scroll",
       padding: "20px",
       backgroundColor: "#eff3f7",
     },
